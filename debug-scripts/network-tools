@@ -18,15 +18,15 @@ global_namespace=$(oc get pod $client -o jsonpath={.metadata.namespace})
 
 if [[ "$network_plugin" == "OVNKubernetes" ]] ; then
     # run scripts
-    ovn_pod_to_pod_connectivity "$global_namespace"/"$client" "$global_namespace"/"$server"
-    ovn_pod_to_svc_connectivity "$global_namespace"/"$client" "$global_namespace"/"$server"
+    ./ovn_pod_to_pod_connectivity "$global_namespace"/"$client" "$global_namespace"/"$server"
+    ./ovn_pod_to_svc_connectivity "$global_namespace"/"$client" "$global_namespace"/"$server"
     # ovn_ipsec_connectivity
 elif [[ "$network_plugin" == "OpenShiftSDN" ]] ; then
     # run scripts
-    sdn_cluster_and_node_info
+    ./sdn_cluster_and_node_info
     # sdn_node_connectivity
-    sdn_pod_to_pod_connectivity "$global_namespace"/"$client" "$global_namespace"/"$server"
-    sdn_pod_to_svc_connectivity "$global_namespace"/"$client" "$global_namespace"/"$server"
+    ./sdn_pod_to_pod_connectivity "$global_namespace"/"$client" "$global_namespace"/"$server"
+    ./sdn_pod_to_svc_connectivity "$global_namespace"/"$client" "$global_namespace"/"$server"
 else
     echo "Unable to debug cluster networking. Only OpenShiftSDN and OVNKubernetes plugins are supported"
 fi
